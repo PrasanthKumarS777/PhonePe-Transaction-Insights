@@ -6,10 +6,14 @@
 ![Pandas](https://img.shields.io/badge/Pandas-2.x-green?logo=pandas)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-3.x-orange)
 ![Seaborn](https://img.shields.io/badge/Seaborn-0.12+-teal)
+![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?logo=streamlit)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
 
 ---
+## 🚀 Live Demo
+
+> **[Click here to open the live dashboard](https://phonepe-transaction-insights-p6kyoz4r2zcpsnjkn6hpab.streamlit.app)**
 
 ## 📌 Table of Contents
 
