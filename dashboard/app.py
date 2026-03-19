@@ -86,7 +86,8 @@ CSCALE = [[0,"#13002b"],[0.5,"#5f259f"],[1,"#f7c948"]]
 # ── SIDEBAR ──────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown(f"""<div style='text-align:center;padding:10px 0 20px'>
-        <div style='font-size:42px'>💜</div>
+    <img src='https://logo.svgcdn.com/simple-icons/phonepe-dark.svg' 
+         style='width:60px;height:60px;filter:invert(1) sepia(1) saturate(5) hue-rotate(250deg);margin-bottom:6px'>
         <div style='font-size:22px;font-weight:700;color:{G}'>PhonePe Pulse</div>
         <div style='font-size:11px;color:#cbb8e8'>Transaction Intelligence Dashboard</div>
         <hr style='border-color:{P};margin:12px 0'>
