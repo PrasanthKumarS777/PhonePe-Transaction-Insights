@@ -7,3 +7,5 @@ data/pulse/
 *.log
 .DS_Store
 .streamlit/secrets.toml
+data/
+venv/
