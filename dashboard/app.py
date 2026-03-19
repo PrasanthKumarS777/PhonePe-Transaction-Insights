@@ -153,13 +153,13 @@ if page == "Overview":
     f1 = px.area(qt, x="period", y="transaction_amount", title="Quarterly Txn Amount Trend",
                  color_discrete_sequence=[A], labels={"transaction_amount":"Amount","period":"Quarter"})
     f1.update_traces(fill='tozeroy', fillcolor="rgba(95,37,159,0.3)")
-    c1.plotly_chart(theme(f1), width="stretch")
+    c1.plotly_chart(theme(f1), use_container_width=True)
 
     tt = agg_t.groupby("transaction_type")["transaction_amount"].sum().reset_index()
     f2 = px.pie(tt, names="transaction_type", values="transaction_amount", title="Txn Type Distribution",
                 color_discrete_sequence=px.colors.sequential.Purples_r, hole=0.45)
     f2.update_traces(textfont_color="white")
-    c2.plotly_chart(theme(f2), width="stretch")
+    c2.plotly_chart(theme(f2), use_container_width=True)
 
 # ── PAGE 2: TRANSACTIONS ─────────────────────────────────────────────
 elif page == "Transactions":
@@ -173,13 +173,13 @@ elif page == "Transactions":
         c1,c2 = st.columns(2)
         f1 = px.line(qt,x="period",y="transaction_amount",title="Quarterly Amount Trend",markers=True,color_discrete_sequence=[G])
         f2 = px.bar(qt,x="period",y="transaction_count",title="Quarterly Count Trend",color="transaction_count",color_continuous_scale=CSCALE)
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         yy = ft.groupby("year")[["transaction_amount","transaction_count"]].sum().reset_index()
         yy["yoy_amt"] = yy["transaction_amount"].pct_change()*100
         f3 = px.bar(yy,x="year",y="yoy_amt",title="YoY Growth % (Amount)",color="yoy_amt",
                     color_continuous_scale=[[0,"#d62728"],[0.5,P],[1,G]])
-        st.plotly_chart(theme(f3,280),width="stretch")
+        st.plotly_chart(theme(f3,280),use_container_width=True)
 
     with t2:
         tt = ft.groupby("transaction_type")[["transaction_amount","transaction_count"]].sum().reset_index()
@@ -187,12 +187,12 @@ elif page == "Transactions":
         f1 = px.pie(tt,names="transaction_type",values="transaction_amount",title="Share by Amount",hole=0.4,color_discrete_sequence=px.colors.sequential.Purp)
         f2 = px.bar(tt.sort_values("transaction_count",ascending=True),x="transaction_count",y="transaction_type",
                     orientation="h",title="Count by Type",color="transaction_count",color_continuous_scale=CSCALE)
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         ttype_q = period(ft.groupby(["year","quarter","transaction_type"])["transaction_amount"].sum().reset_index())
         f3 = px.area(ttype_q,x="period",y="transaction_amount",color="transaction_type",title="Txn Type Over Time",
                      color_discrete_sequence=px.colors.qualitative.Vivid)
-        st.plotly_chart(theme(f3,320),width="stretch")
+        st.plotly_chart(theme(f3,320),use_container_width=True)
 
     with t3:
         st_t = ft.groupby("state")[["transaction_amount","transaction_count"]].sum().reset_index()
@@ -201,24 +201,24 @@ elif page == "Transactions":
                     title="Top 10 States by Amount",color="transaction_amount",color_continuous_scale=CSCALE)
         f2 = px.bar(st_t.nlargest(10,"transaction_count"),x="transaction_count",y="state",orientation="h",
                     title="Top 10 States by Count",color="transaction_count",color_continuous_scale=CSCALE)
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         avg_v = ft.groupby("state").apply(lambda x: x["transaction_amount"].sum()/x["transaction_count"].sum()).reset_index(name="avg_val")
         f3 = px.bar(avg_v.nlargest(15,"avg_val"),x="state",y="avg_val",title="Top 15 States - Avg Txn Value",
                     color="avg_val",color_continuous_scale=CSCALE)
-        st.plotly_chart(theme(f3,300),width="stretch")
+        st.plotly_chart(theme(f3,300),use_container_width=True)
 
     with t4:
         heat = ft.groupby(["state","year"])["transaction_amount"].sum().unstack(fill_value=0)
         heat = heat.loc[heat.sum(axis=1).nlargest(15).index]
         f = px.imshow(heat/1e12,title="State x Year Heatmap (Rs.T)",color_continuous_scale=CSCALE,
                       labels=dict(color="Rs.T"),aspect="auto",text_auto=".1f")
-        st.plotly_chart(theme(f,500),width="stretch")
+        st.plotly_chart(theme(f,500),use_container_width=True)
         seas = ft.groupby("quarter")["transaction_amount"].mean().reset_index()
         seas["quarter"] = seas["quarter"].map({1:"Q1",2:"Q2",3:"Q3",4:"Q4"})
         f2 = px.bar(seas,x="quarter",y="transaction_amount",title="Seasonality - Avg Amount by Quarter",
                     color="transaction_amount",color_continuous_scale=CSCALE)
-        st.plotly_chart(theme(f2,280),width="stretch")
+        st.plotly_chart(theme(f2,280),use_container_width=True)
 
 # ── PAGE 3: USERS ────────────────────────────────────────────────────
 elif page == "Users":
@@ -234,14 +234,14 @@ elif page == "Users":
                     color_discrete_sequence=px.colors.qualitative.Vivid)
         f2 = px.bar(br.head(15),x="brand",y="registered_users",title="Brand-wise Registered Users",
                     color="registered_users",color_continuous_scale=CSCALE)
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         br_y = period(fu.groupby(["year","quarter","brand"])["registered_users"].sum().reset_index())
         top5b = br.head(5)["brand"].tolist()
         f3 = px.line(br_y[br_y["brand"].isin(top5b)],x="period",y="registered_users",color="brand",
                      title="Top 5 Brands - Growth Over Time",markers=True,
                      color_discrete_sequence=px.colors.qualitative.Vivid)
-        st.plotly_chart(theme(f3,320),width="stretch")
+        st.plotly_chart(theme(f3,320),use_container_width=True)
 
     with t2:
         su = fm.groupby("state")[["registered_users","app_opens"]].sum().reset_index()
@@ -251,12 +251,12 @@ elif page == "Users":
         f2 = px.bar(su.nlargest(15,"app_opens"),x="state",y="app_opens",
                     title="Top 15 States - App Opens",color="app_opens",color_continuous_scale=CSCALE)
         f1.update_xaxes(tickangle=45); f2.update_xaxes(tickangle=45)
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         du = fm.groupby("district")["registered_users"].sum().reset_index().nlargest(10,"registered_users")
         f3 = px.bar(du,x="registered_users",y="district",orientation="h",title="Top 10 Districts - Users",
                     color="registered_users",color_continuous_scale=CSCALE)
-        st.plotly_chart(theme(f3,320),width="stretch")
+        st.plotly_chart(theme(f3,320),use_container_width=True)
 
     with t3:
         qu = period(fu.groupby(["year","quarter"])["registered_users"].sum().reset_index())
@@ -266,13 +266,13 @@ elif page == "Users":
         f2 = px.area(qa,x="period",y="app_opens",title="App Opens Growth",color_discrete_sequence=[G])
         f1.update_traces(fill='tozeroy',fillcolor="rgba(139,47,201,0.3)")
         f2.update_traces(fill='tozeroy',fillcolor="rgba(247,201,72,0.3)")
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         heat_u = fu.groupby(["state","year"])["registered_users"].sum().unstack(fill_value=0)
         heat_u = heat_u.loc[heat_u.sum(axis=1).nlargest(12).index]
         f3 = px.imshow(heat_u/1e6,title="State x Year User Heatmap (Millions)",
                        color_continuous_scale=CSCALE,text_auto=".1f",aspect="auto")
-        st.plotly_chart(theme(f3,420),width="stretch")
+        st.plotly_chart(theme(f3,420),use_container_width=True)
 
 # ── PAGE 4: INSURANCE ────────────────────────────────────────────────
 elif page == "Insurance":
@@ -289,8 +289,8 @@ elif page == "Insurance":
                     color="policy_count",color_continuous_scale=CSCALE)
         f2 = px.line(qi,x="period",y="premium_amount",title="Quarterly Premium Growth",
                      markers=True,color_discrete_sequence=[G])
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         f3 = px.line(qi,x="period",y="avg_prem",title="Avg Premium per Policy Trend",
                      markers=True,color_discrete_sequence=[A])
         yi = fi.groupby("year")[["policy_count","premium_amount"]].sum().reset_index()
@@ -298,8 +298,8 @@ elif page == "Insurance":
         f4 = px.bar(yi,x="year",y="yoy",title="YoY Insurance Premium Growth %",
                     color="yoy",color_continuous_scale=[[0,"#d62728"],[0.5,P],[1,G]])
         c3,c4 = st.columns(2)
-        c3.plotly_chart(theme(f3),width="stretch")
-        c4.plotly_chart(theme(f4),width="stretch")
+        c3.plotly_chart(theme(f3),use_container_width=True)
+        c4.plotly_chart(theme(f4),use_container_width=True)
 
     with t2:
         si = fi.groupby("state")[["policy_count","premium_amount"]].sum().reset_index()
@@ -309,20 +309,20 @@ elif page == "Insurance":
         f2 = px.bar(si.nlargest(15,"premium_amount"),x="state",y="premium_amount",
                     title="Top 15 States - Premium",color="premium_amount",color_continuous_scale=CSCALE)
         f1.update_xaxes(tickangle=45); f2.update_xaxes(tickangle=45)
-        c1.plotly_chart(theme(f1),width="stretch")
-        c2.plotly_chart(theme(f2),width="stretch")
+        c1.plotly_chart(theme(f1),use_container_width=True)
+        c2.plotly_chart(theme(f2),use_container_width=True)
         f3 = px.scatter(si,x="policy_count",y="premium_amount",text="state",
                         title="Policy Count vs Premium - State Scatter",size="premium_amount",
                         color="premium_amount",color_continuous_scale=CSCALE)
         f3.update_traces(textposition="top center",textfont_size=9)
-        st.plotly_chart(theme(f3,400),width="stretch")
+        st.plotly_chart(theme(f3,400),use_container_width=True)
 
     with t3:
         di = fmi.groupby("district")[["policy_count","premium_amount"]].sum().reset_index()
         f1 = px.bar(di.nlargest(15,"premium_amount"),x="premium_amount",y="district",
                     orientation="h",title="Top 15 Districts - Insurance Premium",
                     color="premium_amount",color_continuous_scale=CSCALE)
-        st.plotly_chart(theme(f1,420),width="stretch")
+        st.plotly_chart(theme(f1,420),use_container_width=True)
 
 # ── PAGE 5: GEO MAPS ─────────────────────────────────────────────────
 elif page == "Geo Maps":
@@ -363,11 +363,11 @@ elif page == "Geo Maps":
 
     tab1,tab2,tab3 = st.tabs(["Transaction Map","User Map","Insurance Map"])
     with tab1:
-        st.plotly_chart(bubble_map(st_t,"transaction_count","transaction_amount","State-wise Transaction Amount"),width="stretch")
+        st.plotly_chart(bubble_map(st_t,"transaction_count","transaction_amount","State-wise Transaction Amount"),use_container_width=True)
     with tab2:
-        st.plotly_chart(bubble_map(st_u,"registered_users","app_opens","State-wise Registered Users"),width="stretch")
+        st.plotly_chart(bubble_map(st_u,"registered_users","app_opens","State-wise Registered Users"),use_container_width=True)
     with tab3:
-        st.plotly_chart(bubble_map(st_i,"policy_count","premium_amount","State-wise Insurance Premium"),width="stretch")
+        st.plotly_chart(bubble_map(st_i,"policy_count","premium_amount","State-wise Insurance Premium"),use_container_width=True)
 
 # ── PAGE 6: BUSINESS CASES ───────────────────────────────────────────
 elif page == "Business Cases":
@@ -388,7 +388,7 @@ elif page == "Business Cases":
     for title, df in cases.items():
         with st.expander(f"{title}", expanded=False):
             c1,c2 = st.columns([1,1])
-            c1.dataframe(df.style.background_gradient(cmap="Purples"), width="stretch")
+            c1.dataframe(df.style.background_gradient(cmap="Purples"), use_container_width=True)
             num_cols = df.select_dtypes(include=np.number).columns.tolist()
             if len(num_cols)>=1:
                 cat = df.columns[0]
@@ -396,4 +396,4 @@ elif page == "Business Cases":
                 fig = px.bar(df, x=cat, y=val, title=title,
                              color=val, color_continuous_scale=CSCALE)
                 fig.update_xaxes(tickangle=45)
-                c2.plotly_chart(theme(fig,320), width="stretch")
+                c2.plotly_chart(theme(fig,320), use_container_width=True)
