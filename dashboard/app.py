@@ -85,9 +85,10 @@ CSCALE = [[0,"#13002b"],[0.5,"#5f259f"],[1,"#f7c948"]]
 
 # ── SIDEBAR ──────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown(f"""<div style='text-align:center;padding:10px 0 20px'>
-    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.png/320px-PhonePe_Logo.png' 
-     style='width:180px;margin-bottom:6px;border-radius:12px;'>
+    col1, col2, col3 = st.columns([1,3,1])
+    with col2:
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.png/320px-PhonePe_Logo.png", width=160)
+    st.markdown(f"""<div style='text-align:center;padding:5px 0 20px'>
         <div style='font-size:22px;font-weight:700;color:{G}'>PhonePe Pulse</div>
         <div style='font-size:11px;color:#cbb8e8'>Transaction Intelligence Dashboard</div>
         <hr style='border-color:{P};margin:12px 0'>
