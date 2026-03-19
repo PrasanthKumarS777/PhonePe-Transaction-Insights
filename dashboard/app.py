@@ -85,10 +85,19 @@ CSCALE = [[0,"#13002b"],[0.5,"#5f259f"],[1,"#f7c948"]]
 
 # ── SIDEBAR ──────────────────────────────────────────────────────────
 with st.sidebar:
-    col1, col2, col3 = st.columns([1,3,1])
-    with col2:
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.png/320px-PhonePe_Logo.png", width=160)
-    st.markdown(f"""<div style='text-align:center;padding:5px 0 20px'>
+    st.markdown(f"""<div style='text-align:center;padding:16px 0 20px'>
+        <div style='display:inline-flex;align-items:center;justify-content:center;
+                    width:80px;height:80px;border-radius:50%;
+                    background:linear-gradient(135deg,{P},{A});
+                    box-shadow:0 0 24px rgba(95,37,159,0.7);margin-bottom:10px'>
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="22" cy="22" r="20" fill="#5f259f" stroke="#f7c948" stroke-width="2"/>
+                <text x="22" y="17" text-anchor="middle" font-size="9" fill="#f7c948" font-weight="bold" font-family="Arial">UPI</text>
+                <path d="M12 22 Q22 14 32 22 Q22 30 12 22 Z" fill="#f7c948" opacity="0.9"/>
+                <circle cx="22" cy="22" r="3" fill="#13002b"/>
+                <path d="M19 28 L22 34 L25 28" stroke="#f7c948" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+        </div>
         <div style='font-size:22px;font-weight:700;color:{G}'>PhonePe Pulse</div>
         <div style='font-size:11px;color:#cbb8e8'>Transaction Intelligence Dashboard</div>
         <hr style='border-color:{P};margin:12px 0'>
