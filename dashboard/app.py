@@ -1,3 +1,4 @@
+from sqlalchemy import create_engine, text
 # app/dashboard.py
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -7,7 +8,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from sqlalchemy import create_engine, text
 
 # ── CONFIG ───────────────────────────────────────────────────────────
 st.set_page_config(page_title="PhonePe Pulse", page_icon="💜", layout="wide", initial_sidebar_state="expanded")
@@ -32,14 +32,16 @@ h1,h2,h3{{color:#e8d5f5;}}
 # ── ENGINE ───────────────────────────────────────────────────────────
 @st.cache_resource
 def get_engine():
-    return create_engine(f"mysql+mysqlconnector://{st.secrets["mysql"]["user"]}:{st.secrets["mysql"]["password"]}@{st.secrets["mysql"]["host"]}/{st.secrets["mysql"]["database"]}")
+    import os
+    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "phonepe.db")
+    return create_engine(f"sqlite:///{db_path}")
 
 engine = get_engine()
 
 @st.cache_data(ttl=300)
 def q(sql, **p):
     with engine.connect() as c:
-        return pd.read_sql(text(sql), c, params=p)
+        return pd.read_sql(text(sql), c)
 
 # ── THEME ────────────────────────────────────────────────────────────
 def theme(fig, h=380):
